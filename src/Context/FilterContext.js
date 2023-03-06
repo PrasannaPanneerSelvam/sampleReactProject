@@ -3,6 +3,7 @@ import React, { createContext, useEffect, useState } from 'react';
 export const FilterContext = createContext();
 
 const FilterContextComponent = ({ children }) => {
+  // TODO :: Replace with useReduce hook
   const [products, setProducts] = useState([]);
   const [availableCategories, setAvailableCategories] = useState([]);
   const [availableBrands, setAvailableBrands] = useState([]);
@@ -11,7 +12,7 @@ const FilterContextComponent = ({ children }) => {
   const [filteredBrands, setFilteredBrands] = useState([]);
 
   const parseAndSetProductResponse = (data) => {
-    if (data.products == undefined) return;
+    if (data.products === undefined || data.products === null) return;
 
     const products = data.products;
     setProducts(products);

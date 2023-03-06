@@ -4,58 +4,36 @@ import { FilterContext } from './../Context/FilterContext';
 
 const SideBar = () => {
   const {
-    filteredCategories,
-    filteredBrands,
     setFilteredCategories,
     availableCategories,
     availableBrands,
     setFilteredBrands,
   } = useContext(FilterContext);
 
-  const onFilterItemClick = (newItemId) => {
-    const select = (newItemId) => {
-      setFilteredCategories((prev) => {
-        return [...prev, newItemId];
-      });
-    };
-
-    const deselect = (newItemId) => {
-      setFilteredCategories((prev) => {
-        return prev.filter((item) => item !== newItemId);
-      });
-    };
-
-    (filteredCategories.includes(newItemId) ? deselect : select)(newItemId);
+  const select = (setFunction) => (newItemId) => {
+    setFunction((prev) => {
+      return [...prev, newItemId];
+    });
   };
 
-  const onBrandFilterItemClick = (newItemId) => {
-    const selectBrand = (newItemId) => {
-      setFilteredBrands((prev) => {
-        return [...prev, newItemId];
-      });
-    };
-
-    const deselectBrand = (newItemId) => {
-      setFilteredBrands((prev) => {
-        return prev.filter((item) => item !== newItemId);
-      });
-    };
-
-    (filteredBrands.includes(newItemId) ? deselectBrand : selectBrand)(
-      newItemId
-    );
+  const deselect = (setFunction) => (newItemId) => {
+    setFunction((prev) => {
+      return prev.filter((item) => item !== newItemId);
+    });
   };
 
   return (
     <div className="sidebar">
       <FilterList
         availableCategories={availableCategories}
-        onFilterItemClick={onFilterItemClick}
+        onSelect={select(setFilteredCategories)}
+        onDeselect={deselect(setFilteredCategories)}
         header="Categories"
       />
       <FilterList
         availableCategories={availableBrands}
-        onFilterItemClick={onBrandFilterItemClick}
+        onSelect={select(setFilteredBrands)}
+        onDeselect={deselect(setFilteredBrands)}
         header="Brands"
       />
     </div>
